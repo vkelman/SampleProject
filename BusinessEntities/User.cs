@@ -69,6 +69,10 @@ namespace BusinessEntities
 
         public void SetType(UserTypes type)
         {
+            if (!Enum.IsDefined(typeof(UserTypes), type))
+            {
+                throw new ArgumentOutOfRangeException("Provided Type value is not valid.");
+            }
             _type = type;
         }
 
