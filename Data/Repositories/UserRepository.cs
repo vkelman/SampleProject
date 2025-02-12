@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BusinessEntities;
 using Common;
@@ -17,7 +18,7 @@ namespace Data.Repositories
             _documentSession = documentSession;
         }
 
-        public IEnumerable<User> Get(UserTypes? userType = null, string name = null, string email = null)
+        public IEnumerable<User> Get(UserTypes? userType = null, string name = null, string email = null, string tag = null)
         {
             var query = _documentSession.Advanced.DocumentQuery<User, UsersListIndex>();
 
@@ -49,7 +50,15 @@ namespace Data.Repositories
                 }
                 query = query.WhereEquals("Email", email);
             }
-            return query.ToList();
+
+            var result = query.ToList();
+
+            if (tag != null)
+            {
+                result = result.Where(x => x.Tags.Contains(tag, StringComparer.InvariantCultureIgnoreCase)).ToList();
+            }
+
+            return result;
         }
 
         public void DeleteAll()

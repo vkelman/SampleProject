@@ -62,7 +62,7 @@ namespace BusinessEntities
         {
             if (string.IsNullOrEmpty(email))
             {
-                throw new ArgumentNullException("Name was not provided.");
+                throw new ArgumentNullException("Email was not provided.");
             }
             _email = email;
         }
@@ -72,14 +72,26 @@ namespace BusinessEntities
             _type = type;
         }
 
-        public void SetAge(int age)
+        public void SetAge(int? age)
         {
-            _email = _name;
+            if (age == null)
+            {
+                throw new ArgumentNullException("Age was not provided.");
+            }
+            if (age < 0)
+            {
+                throw new ArgumentOutOfRangeException("Age cannot be negative.");
+            }
+            _age = age.Value;
         }
 
-        public void SetMonthlySalary(decimal? monthlySalary)
+        public void SetMonthlySalary(decimal? annualSalary)
         {
-            _monthlySalary = monthlySalary;
+            if (annualSalary == null)
+            {
+                throw new ArgumentNullException("Salary was not provided.");
+            }
+            _monthlySalary = annualSalary / 12;
         }
 
         public void SetTags(IEnumerable<string> tags)
