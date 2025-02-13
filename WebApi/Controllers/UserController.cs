@@ -46,7 +46,10 @@ namespace WebApi.Controllers
             {
                 return DoesNotExist("User");
             }
+
+            //// I don't understand what actually saves updated User data to the database. Repository Save() method is not called.
             _updateUserService.Update(user, model.Name, model.Email, model.Type, model.Age, model.AnnualSalary, model.Tags);
+
             return Found(new UserData(user));
         }
 

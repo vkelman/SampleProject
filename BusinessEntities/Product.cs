@@ -6,7 +6,7 @@ namespace BusinessEntities
     {
         private string _name;
         private string _description;
-        private ProductTypes _type = ProductTypes.Grocery;
+        private ProductTypes _type;
         private decimal _price;
 
         public string Name

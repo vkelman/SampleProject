@@ -26,11 +26,14 @@ namespace WebApi.Controllers
             _deleteProductService = deleteProductService;
             _getProductService = getProductService;
             _updateProductService = updateProductService;
+
+            //Guid g = Guid.NewGuid();
+            //string guidString = g.ToString();
         }
 
         [Route("{productId:guid}/create")]
         [HttpPost]
-        public HttpResponseMessage CreateUser(Guid productId, [FromBody] ProductModel model)
+        public HttpResponseMessage CreateProduct(Guid productId, [FromBody] ProductModel model)
         {
             var existingProduct = _getProductService.GetProduct(productId);
             if (existingProduct != null)
@@ -43,7 +46,7 @@ namespace WebApi.Controllers
 
         [Route("{productId:guid}/update")]
         [HttpPost]
-        public HttpResponseMessage UpdateUser(Guid productId, [FromBody] ProductModel model)
+        public HttpResponseMessage UpdateProduct(Guid productId, [FromBody] ProductModel model)
         {
             var product = _getProductService.GetProduct(productId);
             if (product == null)
@@ -84,6 +87,14 @@ namespace WebApi.Controllers
                 .Select(q => new ProductData(q))
                 .ToList();
             return Found(products);
+        }
+
+        [Route("clear")]
+        [HttpDelete]
+        public HttpResponseMessage DeleteAllProducts()
+        {
+            _deleteProductService.DeleteAll();
+            return Found();
         }
     }
 }
