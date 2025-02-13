@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Xml.Linq;
 
 namespace WebApi.Controllers
 {
@@ -16,14 +17,14 @@ namespace WebApi.Controllers
             return ControllerContext.Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        public HttpResponseMessage DoesNotExist()
+        public HttpResponseMessage DoesNotExist(string name)
         {
-            return ControllerContext.Request.CreateResponse(HttpStatusCode.NotFound);
+            return ControllerContext.Request.CreateResponse(HttpStatusCode.NotFound, $"{name} does not exist.");
         }
 
-        public HttpResponseMessage AlreadyExist()
+        public HttpResponseMessage AlreadyExist(string name)
         {
-            return ControllerContext.Request.CreateResponse(HttpStatusCode.BadRequest, "User already exists.");
+            return ControllerContext.Request.CreateResponse(HttpStatusCode.BadRequest, $"{name} already exists.");
         }
     }
 }

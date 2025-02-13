@@ -9,7 +9,7 @@ namespace BusinessEntities
         private readonly List<string> _tags = new List<string>();
         private int _age;
         private string _email;
-        private decimal? _monthlySalary;
+        private decimal _monthlySalary;
         private string _name;
         private UserTypes _type = UserTypes.Employee;
 
@@ -31,7 +31,7 @@ namespace BusinessEntities
             private set => _type = value;
         }
 
-        public decimal? MonthlySalary
+        public decimal MonthlySalary
         {
             get => _monthlySalary;
             private set => _monthlySalary = value;
@@ -53,7 +53,7 @@ namespace BusinessEntities
         {
             if (string.IsNullOrEmpty(name))
             {
-                throw new ArgumentNullException("Name was not provided.");
+                throw new ArgumentNullException(nameof(name), "Name was not provided.");
             }
             _name = name;
         }
@@ -62,7 +62,7 @@ namespace BusinessEntities
         {
             if (string.IsNullOrEmpty(email))
             {
-                throw new ArgumentNullException("Email was not provided.");
+                throw new ArgumentNullException(nameof(email), "Email was not provided.");
             }
             _email = email;
         }
@@ -71,7 +71,7 @@ namespace BusinessEntities
         {
             if (!Enum.IsDefined(typeof(UserTypes), type))
             {
-                throw new ArgumentOutOfRangeException("Provided Type value is not valid.");
+                throw new ArgumentOutOfRangeException(nameof(type), "Provided User Type value is not valid.");
             }
             _type = type;
         }
@@ -80,11 +80,11 @@ namespace BusinessEntities
         {
             if (age == null)
             {
-                throw new ArgumentNullException("Age was not provided.");
+                throw new ArgumentNullException(nameof(age), "Age was not provided.");
             }
-            if (age < 0)
+            if (age <= 0)
             {
-                throw new ArgumentOutOfRangeException("Age cannot be negative.");
+                throw new ArgumentOutOfRangeException(nameof(age), "Age cannot null or be negative.");
             }
             _age = age.Value;
         }
@@ -93,9 +93,13 @@ namespace BusinessEntities
         {
             if (annualSalary == null)
             {
-                throw new ArgumentNullException("Salary was not provided.");
+                throw new ArgumentNullException(nameof(annualSalary), "Salary was not provided.");
             }
-            _monthlySalary = annualSalary / 12;
+            if (annualSalary <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(annualSalary), "Annual Salary cannot be null or negative.");
+            }
+            _monthlySalary = annualSalary.Value / 12;
         }
 
         public void SetTags(IEnumerable<string> tags)

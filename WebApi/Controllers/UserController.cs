@@ -31,7 +31,7 @@ namespace WebApi.Controllers
             var existingUser = _getUserService.GetUser(userId);
             if (existingUser != null)
             {
-                return AlreadyExist();
+                return AlreadyExist("User");
             }
             var user = _createUserService.Create(userId, model.Name, model.Email, model.Type, model.Age, model.AnnualSalary, model.Tags);
             return Found(new UserData(user));
@@ -44,7 +44,7 @@ namespace WebApi.Controllers
             var user = _getUserService.GetUser(userId);
             if (user == null)
             {
-                return DoesNotExist();
+                return DoesNotExist("User");
             }
             _updateUserService.Update(user, model.Name, model.Email, model.Type, model.Age, model.AnnualSalary, model.Tags);
             return Found(new UserData(user));
@@ -57,7 +57,7 @@ namespace WebApi.Controllers
             var user = _getUserService.GetUser(userId);
             if (user == null)
             {
-                return DoesNotExist();
+                return DoesNotExist("User");
             }
             _deleteUserService.Delete(user);
             return Found();

@@ -55,6 +55,7 @@ namespace Data.Repositories
 
             if (tag != null)
             {
+                //// Note: I didn't find how to query a list of strings in [old] RavenDB, so I had to do it in memory.
                 result = result.Where(x => x.Tags.Contains(tag, StringComparer.InvariantCultureIgnoreCase)).ToList();
             }
 
