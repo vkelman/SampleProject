@@ -45,7 +45,7 @@ namespace Data.Repositories
             name = (name ?? "").Trim();
             if (name.Length > 0)
             {
-                result = result.Where(x => x.Name.ToLower() == name.ToLower()).ToList();
+                result = result.Where(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             return result;
