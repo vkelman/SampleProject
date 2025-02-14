@@ -10,10 +10,16 @@ namespace Data.Repositories
     public class ProductRepository : IProductRepository
     {
         private static IList<Product> products = new List<Product>();
-
-
+        
         public void Save(Product product)
         {
+            var existingProduct = Get(product.Id);
+
+            if (existingProduct != null)
+            {
+                products.Remove(existingProduct);
+            }
+
             products.Add(product);
         }
 
