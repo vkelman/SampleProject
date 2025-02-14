@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace BusinessEntities
 {
+    /// <summary>
+    /// Represents an Order entity.
+    /// </summary>
+    /// <remarks>ToDo: add link property to connect to User.</remarks>
     public class Order : IdObject
     {
         private DateTime _orderDate;

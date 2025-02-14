@@ -2,6 +2,9 @@
 
 namespace BusinessEntities
 {
+    /// <summary>
+    /// Represents a Product entity.
+    /// </summary>
     public class Product : IdObject
     {
         private string _name;

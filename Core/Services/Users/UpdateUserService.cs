@@ -11,8 +11,8 @@ namespace Core.Services.Users
         public void Update(User user, string name, string email, UserTypes? type, int? age, decimal? annualSalary, IEnumerable<string> tags, bool ignoreNullValues = false)
         {
             //// Note: we assume that parameter name == null and name == string.Empty are equivalent and should be treated as "skip this parameter"
-            if (!ignoreNullValues || (name + string.Empty).Length != 0) user.SetName(name);
-            if (!ignoreNullValues || (email + string.Empty).Length != 0) user.SetEmail(email);
+            if (!ignoreNullValues || (name + string.Empty).Trim().Length != 0) user.SetName(name);
+            if (!ignoreNullValues || (email + string.Empty).Trim().Length != 0) user.SetEmail(email);
             // ReSharper disable once PossibleInvalidOperationException
             if (!ignoreNullValues || type != null) user.SetType(type.Value);
             if (!ignoreNullValues || age != null) user.SetAge(age);

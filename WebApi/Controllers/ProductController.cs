@@ -53,7 +53,7 @@ namespace WebApi.Controllers
             {
                 return DoesNotExist("Product");
             }
-            _updateProductService.Update(product, model.Name, model.Description, model.Type, model.Price);
+            _updateProductService.Update(product, model.Name, model.Description, model.Type, model.Price, true);
             return Found(new ProductData(product));
         }
 
@@ -75,17 +75,30 @@ namespace WebApi.Controllers
         public HttpResponseMessage GetProduct(Guid productId)
         {
             var product = _getProductService.GetProduct(productId);
+                 
+            if (product == null)
+            {
+                return DoesNotExist("Product");
+            }
+
             return Found(new ProductData(product));
         }
 
+        //// Note: Specifying take < 0 would return all products. It may be suitable or not depending on the requirements and database size.
         [Route("list")]
         [HttpGet]
         public HttpResponseMessage GetProducts(int skip, int take, ProductTypes? type = null, string name = null)
         {
-            var products = _getProductService.GetProducts(type, name)
-                .Skip(skip).Take(take)
-                .Select(q => new ProductData(q))
-                .ToList();
+            var products = take < 0
+                ? _getProductService.GetProducts(type, name)
+                    .Skip(skip)
+                    .Select(q => new ProductData(q))
+                    .ToList()
+                : _getProductService.GetProducts(type, name)
+                    .Skip(skip).Take(take)
+                    .Select(q => new ProductData(q))
+                    .ToList();
+
             return Found(products);
         }
 

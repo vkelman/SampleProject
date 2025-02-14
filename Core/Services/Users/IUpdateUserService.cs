@@ -6,7 +6,7 @@ namespace Core.Services.Users
     public interface IUpdateUserService
     {
         /// <summary>
-        /// Update user properties from individual parameters supplied
+        /// Updates the user properties with the given values.
         /// </summary>
         /// <param name="user">User object</param>
         /// <param name="name">name</param>

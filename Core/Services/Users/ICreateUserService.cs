@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using BusinessEntities;
-using JetBrains.Annotations;
 
 namespace Core.Services.Users
 {

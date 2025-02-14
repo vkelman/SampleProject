@@ -62,7 +62,9 @@ namespace WebApi.Controllers
             {
                 return DoesNotExist("User");
             }
+
             _deleteUserService.Delete(user);
+
             return Found();
         }
 
@@ -71,10 +73,16 @@ namespace WebApi.Controllers
         public HttpResponseMessage GetUser(Guid userId)
         {
             var user = _getUserService.GetUser(userId);
+            
+            if (user == null)
+            {
+                return DoesNotExist("User");
+            }
+
             return Found(new UserData(user));
         }
 
-        //// Note: I changed the logic so that take < 0 would return all users. It may be suitable or not depending on the requirements.
+        //// Note: I changed the logic so that take < 0 would return all users. It may be suitable or not depending on the requirements and database size.
         [Route("list")]
         [HttpGet]
         public HttpResponseMessage GetUsers(int skip, int take, UserTypes? type = null, string name = null, string email = null)
@@ -87,6 +95,7 @@ namespace WebApi.Controllers
                         .Skip(skip).Take(take)
                         .Select(q => new UserData(q));
             var result = users.ToList();
+
             return Found(result);
         }
 

@@ -4,7 +4,6 @@ using BusinessEntities;
 using Common;
 using Core.Factories;
 using Data.Repositories;
-using JetBrains.Annotations;
 
 namespace Core.Services.Users
 {

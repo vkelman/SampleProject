@@ -9,7 +9,7 @@ namespace Data.Repositories
     [AutoRegister]
     public class ProductRepository : IProductRepository
     {
-        private static IList<Product> products = new List<Product>();
+        private static readonly IList<Product> Products = new List<Product>();
         
         public void Save(Product product)
         {
@@ -17,43 +17,43 @@ namespace Data.Repositories
 
             if (existingProduct != null)
             {
-                products.Remove(existingProduct);
+                Products.Remove(existingProduct);
             }
 
-            products.Add(product);
+            Products.Add(product);
         }
 
         public void Delete(Product product)
         {
-            throw new NotImplementedException();
+            Products.Remove(product);
         }
 
         public Product Get(Guid id)
         {
-            return products.FirstOrDefault(x => x.Id == id);
+            return Products.FirstOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<Product> Get(ProductTypes? productType = null, string name = null)
         {
-            var resut = products;
+            var result = Products;
 
             if(productType != null)
             {
-                resut = resut.Where(x => x.Type == productType).ToList();
+                result = result.Where(x => x.Type == productType).ToList();
             }
 
             name = (name ?? "").Trim();
             if (name.Length > 0)
             {
-                resut = resut.Where(x => x.Name.ToLower() == name.ToLower()).ToList();
+                result = result.Where(x => x.Name.ToLower() == name.ToLower()).ToList();
             }
 
-            return resut;
+            return result;
         }
         
         public void DeleteAll()
         {
-            products.Clear();
+            Products.Clear();
         }
     }
 }
