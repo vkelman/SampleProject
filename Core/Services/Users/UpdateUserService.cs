@@ -10,22 +10,14 @@ namespace Core.Services.Users
         /// <inheritdoc cref="IUpdateUserService.Update"/>>
         public void Update(User user, string name, string email, UserTypes? type, int? age, decimal? annualSalary, IEnumerable<string> tags, bool ignoreNullValues = false)
         {
-            if (ignoreNullValues)
-            {
-                name = (name + string.Empty).Length == 0 ? user.Name : name;
-                email = (email + string.Empty).Length == 0 ? user.Email : email;
-                type = type ?? user.Type;
-                age = age ?? user.Age;
-                annualSalary = annualSalary ?? user.MonthlySalary * 12;
-            }
-
-            user.SetName(name);
-            user.SetEmail(email);
+            //// Note: we assume that parameter name == null and name == string.Empty are equivalent and should be treated as "skip this parameter"
+            if (!ignoreNullValues || (name + string.Empty).Length != 0) user.SetName(name);
+            if (!ignoreNullValues || (email + string.Empty).Length != 0) user.SetEmail(email);
             // ReSharper disable once PossibleInvalidOperationException
-            user.SetType(type.Value);
-            user.SetAge(age);
-            user.SetMonthlySalary(annualSalary);
-            user.SetTags(tags);
+            if (!ignoreNullValues || type != null) user.SetType(type.Value);
+            if (!ignoreNullValues || age != null) user.SetAge(age);
+            if (!ignoreNullValues || annualSalary != null) user.SetMonthlySalary(annualSalary);
+            if (!ignoreNullValues || tags != null) user.SetTags(tags);
         }
     }
 }
