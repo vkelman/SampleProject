@@ -47,8 +47,8 @@ namespace WebApi.Controllers
                 return DoesNotExist("User");
             }
 
-            //// I don't understand what actually saves updated User data to the database. Repository Save() method is not called.
-            _updateUserService.Update(user, model.Name, model.Email, model.Type, model.Age, model.AnnualSalary, model.Tags);
+            //// Note: I don't understand what actually saves updated User data to the database. Repository Save() method is not called.
+            _updateUserService.Update(user, model.Name, model.Email, model.Type, model.Age, model.AnnualSalary, model.Tags, true);
 
             return Found(new UserData(user));
         }
@@ -74,15 +74,20 @@ namespace WebApi.Controllers
             return Found(new UserData(user));
         }
 
+        //// Note: I changed the logic so that take < 0 would return all users. It may be suitable or not depending on the requirements.
         [Route("list")]
         [HttpGet]
         public HttpResponseMessage GetUsers(int skip, int take, UserTypes? type = null, string name = null, string email = null)
         {
-            var users = _getUserService.GetUsers(type, name, email)
-                                       .Skip(skip).Take(take)
-                                       .Select(q => new UserData(q))
-                                       .ToList();
-            return Found(users);
+            var users = take < 0
+                    ? _getUserService.GetUsers(type, name, email)
+                        .Skip(skip)
+                        .Select(q => new UserData(q))
+                    : _getUserService.GetUsers(type, name, email)
+                        .Skip(skip).Take(take)
+                        .Select(q => new UserData(q));
+            var result = users.ToList();
+            return Found(result);
         }
 
         [Route("clear")]
