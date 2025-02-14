@@ -6,11 +6,11 @@ namespace BusinessEntities
     /// <summary>
     /// Represents an Order entity.
     /// </summary>
-    /// <remarks>ToDo: add link property to connect to User.</remarks>
     public class Order : IdObject
     {
         private DateTime _orderDate;
         private OrderStatus _status;
+        private User _user;
         private Dictionary<Product, int> _products = new Dictionary<Product, int>();
 
         public DateTime OrderDate { get; private set; }
@@ -52,7 +52,7 @@ namespace BusinessEntities
             }
             if (quantity <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity cannot be null or negative.");
+                throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity to add cannot be null or negative.");
             }
             if (_products.ContainsKey(product))
             {
@@ -62,6 +62,27 @@ namespace BusinessEntities
             {
                 _products.Add(product, quantity);
             }
+        }
+
+        public void RemoveProduct(Product product, int? quantity = null)
+        {
+            if (product == null)
+            {
+                throw new ArgumentNullException(nameof(product), "Product was not provided.");
+            }
+            if (quantity <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity to remove cannot be null or negative.");
+            }
+            if (!_products.ContainsKey(product))
+            {
+                throw new KeyNotFoundException("Product to remove was not found in the Order.");
+            }
+
+            if (quantity == null || quantity >= _products[product])
+                _products.Remove(product);
+            else
+                _products[product] -= quantity.Value;
         }
     }
 }
