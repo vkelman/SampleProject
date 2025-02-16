@@ -40,7 +40,9 @@ namespace WebApi.Controllers
             {
                 return AlreadyExist("Product");
             }
+
             var product = _createProductService.Create(productId, model.Name, model.Description, model.Type, model.Price);
+
             return Found(new ProductData(product));
         }
 
@@ -53,7 +55,9 @@ namespace WebApi.Controllers
             {
                 return DoesNotExist("Product");
             }
+
             _updateProductService.Update(product, model.Name, model.Description, model.Type, model.Price, true);
+
             return Found(new ProductData(product));
         }
 
@@ -66,7 +70,9 @@ namespace WebApi.Controllers
             {
                 return DoesNotExist("Product");
             }
+
             _deleteProductService.Delete(product);
+
             return Found();
         }
  
@@ -107,6 +113,7 @@ namespace WebApi.Controllers
         public HttpResponseMessage DeleteAllProducts()
         {
             _deleteProductService.DeleteAll();
+
             return Found();
         }
     }

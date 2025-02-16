@@ -9,8 +9,8 @@ namespace Core.Services.Products
     [AutoRegister]
     public class CreateProductService : ICreateProductService
     {
-        private readonly IUpdateProductService _updateProductService;
         private readonly IIdObjectFactory<Product> _productFactory;
+        private readonly IUpdateProductService _updateProductService;
         private readonly IProductRepository _productRepository;
 
         public CreateProductService(IIdObjectFactory<Product> productFactory, IProductRepository productRepository, IUpdateProductService updateProductService)
@@ -25,6 +25,7 @@ namespace Core.Services.Products
             var product = _productFactory.Create(id);
             _updateProductService.Update(product, name, description, type, price);
             _productRepository.Save(product);
+
             return product;
         }
     }

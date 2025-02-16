@@ -10,12 +10,32 @@ namespace BusinessEntities
     {
         private DateTime _orderDate;
         private OrderStatus _status;
-        private User _user;
-        private Dictionary<Product, int> _products = new Dictionary<Product, int>();
+        private Guid _userId;
+        private Dictionary<Guid, int> _products = new Dictionary<Guid, int>();
+        private IList<(OrderStatus status, Dictionary<Guid, int> products)> _orderHistory = new List<(OrderStatus status, Dictionary<Guid, int> products)>();
 
-        public DateTime OrderDate { get; private set; }
-        public OrderStatus Status { get; private set; }
+        public DateTime OrderDate
+        {
+            get => _orderDate;
+            private set => _orderDate = value;
+        }
 
+        public OrderStatus Status
+        {
+            get => _status;
+            private set => _status = value;
+        }
+
+        public Guid UserId
+        {
+            get => _userId;
+            private set => _userId = value;
+        }
+
+        public Order(Guid userId)
+        {
+            _userId = userId;
+        }
 
         public void SetOrderDate(DateTime? orderDate)
         {
@@ -23,7 +43,7 @@ namespace BusinessEntities
             {
                 throw new ArgumentNullException(nameof(orderDate), "Order Date was not provided.");
             }
-            if (orderDate < BusinessEntities.Constants.BusinessConstants.EarliestOrderDate)
+            if (orderDate < Constants.BusinessConstants.EarliestOrderDate)
             {
                 throw new ArgumentOutOfRangeException(nameof(orderDate), "Order Date cannot be earlier than 1900-01-01.");
             }
@@ -54,13 +74,13 @@ namespace BusinessEntities
             {
                 throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity to add cannot be null or negative.");
             }
-            if (_products.ContainsKey(product))
+            if (_products.ContainsKey(product.Id))
             {
-                _products[product] += quantity;
+                _products[product.Id] += quantity;
             }
             else
             {
-                _products.Add(product, quantity);
+                _products.Add(product.Id, quantity);
             }
         }
 
@@ -74,15 +94,15 @@ namespace BusinessEntities
             {
                 throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity to remove cannot be null or negative.");
             }
-            if (!_products.ContainsKey(product))
+            if (!_products.ContainsKey(product.Id))
             {
                 throw new KeyNotFoundException("Product to remove was not found in the Order.");
             }
 
-            if (quantity == null || quantity >= _products[product])
-                _products.Remove(product);
+            if (quantity == null || quantity >= _products[product.Id])
+                _products.Remove(product.Id);
             else
-                _products[product] -= quantity.Value;
+                _products[product.Id] -= quantity.Value;
         }
     }
 }

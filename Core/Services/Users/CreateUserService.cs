@@ -10,8 +10,8 @@ namespace Core.Services.Users
     [AutoRegister]
     public class CreateUserService : ICreateUserService
     {
-        private readonly IUpdateUserService _updateUserService;
         private readonly IIdObjectFactory<User> _userFactory;
+        private readonly IUpdateUserService _updateUserService;
         private readonly IUserRepository _userRepository;
 
         public CreateUserService(IIdObjectFactory<User> userFactory, IUserRepository userRepository, IUpdateUserService updateUserService)
