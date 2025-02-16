@@ -3,9 +3,11 @@ using System;
 using Core.Factories;
 using Data.Repositories;
 using System.Collections.Generic;
+using Common;
 
 namespace Core.Services.Orders
 {
+    [AutoRegister]
     public class CreateOrderService : ICreateOrderService
     {
         private readonly IIdObjectFactory<Order> _orderFactory;

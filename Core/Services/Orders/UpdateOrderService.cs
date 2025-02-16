@@ -2,9 +2,11 @@
 using JetBrains.Annotations;
 using System.Collections.Generic;
 using System;
+using Common;
 
 namespace Core.Services.Orders
 {
+    [AutoRegister]
     public class UpdateOrderService : IUpdateOrderService
     {
         public Order Update(Order order, DateTime? updateDateTime, OrderStatus? status, [CanBeNull] Dictionary<Guid, int> products, bool ignoreNullValues = false)

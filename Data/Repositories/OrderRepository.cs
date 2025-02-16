@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using BusinessEntities;
+using Common;
 
 namespace Data.Repositories
 {
+    [AutoRegister]
     public class OrderRepository : IOrderRepository
     {
         private static readonly IList<Order> Orders = new List<Order>();
