@@ -21,9 +21,9 @@ namespace Core.Services.Orders
             return _orderRepository.Get(id);
         }
 
-        public IEnumerable<Order> GetOrders(DateTime? orderDate = null, Guid? userId = null)
+        public IEnumerable<Order> GetOrders(DateTime? orderDate = null, OrderStatus? orderStatus = null, Guid? userId = null)
         {
-            return _orderRepository.Get(orderDate, userId);
+            return _orderRepository.Get(orderDate, orderStatus, userId);
         }
     }
 }

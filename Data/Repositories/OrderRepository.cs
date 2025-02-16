@@ -31,13 +31,18 @@ namespace Data.Repositories
             return Orders.FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<Order> Get(DateTime? orderDate = null, Guid? userId = null)
+        public IEnumerable<Order> Get(DateTime? orderDate = null, OrderStatus? orderStatus = null, Guid? userId = null)
         {
             var result = Orders;
 
             if(orderDate != null)
             {
                 result = result.Where(x => x.OrderDate.Date == orderDate.Value.Date).ToList(); //// Note: Comparing Date part only
+            }
+
+            if (orderStatus != null)
+            {
+                result = result.Where(x => x.Status == orderStatus.Value).ToList();
             }
 
             if (userId != null)

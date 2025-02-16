@@ -17,6 +17,6 @@ namespace Core.Services.Orders
         /// <param name="ignoreNullValues">If true, don't replace order properties with nulls (suitable for update operation with optional parameters;
         /// if false, raise a corresponding exception if some of the parameters are nulls (suitable for create operation).</param>
         /// <returns>updated Order object</returns>
-        Product Update(Order order, DateTime? updateDateTime, OrderStatus? status, [CanBeNull] Dictionary<Guid, int> products, bool ignoreNullValues = false);
+        Order Update(Order order, DateTime? updateDateTime, OrderStatus? status, [CanBeNull] Dictionary<Guid, int> products, bool ignoreNullValues = false);
     }
 }

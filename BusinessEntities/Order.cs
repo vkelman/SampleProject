@@ -8,8 +8,8 @@ namespace BusinessEntities
     /// </summary>
     public class Order : IdObject
     {
-        private DateTime _orderDate;
-        private OrderStatus _status;
+        private DateTime _orderDate = DateTime.MinValue;
+        private OrderStatus _status = OrderStatus.Undefined;
         private Guid _userId;
         private Dictionary<Guid, int> _products = new Dictionary<Guid, int>();
         private IList<(OrderStatus status, Dictionary<Guid, int> products)> _orderHistory = new List<(OrderStatus status, Dictionary<Guid, int> products)>();
@@ -29,12 +29,19 @@ namespace BusinessEntities
         public Guid UserId
         {
             get => _userId;
-            private set => _userId = value;
+            set => _userId = value;
         }
 
-        public Order(Guid userId)
+        public Dictionary<Guid, int> Products
         {
-            _userId = userId;
+            get => _products;
+            private set => _products = value;
+        }
+
+        public IList<(OrderStatus status, Dictionary<Guid, int> products)> OrderHistory
+        {
+            get => _orderHistory;
+            private set => _orderHistory = value;
         }
 
         public void SetOrderDate(DateTime? orderDate)
@@ -103,6 +110,28 @@ namespace BusinessEntities
                 _products.Remove(product.Id);
             else
                 _products[product.Id] -= quantity.Value;
+        }
+
+        public void SetProducts(Dictionary<Guid, int> products)
+        {
+            if (products == null)
+            {
+                throw new ArgumentNullException(nameof(products), "Products were not provided.");
+            }
+            if (products.Count == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(products), "Products to set cannot be empty.");
+            }
+            _products = products;
+        }
+
+        public IList<(OrderStatus status, Dictionary<Guid, int> products)> AddToOrderHistory(
+            IList<(OrderStatus status, Dictionary<Guid, int> products)> history,
+            Dictionary<Guid, int> products)
+        {
+            history.Add((Status, products));
+
+            return history;
         }
     }
 }

@@ -8,6 +8,6 @@ namespace Core.Services.Orders
     {
         Order GetOrder(Guid id);
 
-        IEnumerable<Order> GetOrders(DateTime? orderDate = null, Guid? userId = null);
+        IEnumerable<Order> GetOrders(DateTime? orderDate = null, OrderStatus? orderStatus = null, Guid? userId = null);
     }
 }

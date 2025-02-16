@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using BusinessEntities;
 
 namespace Core.Services.Orders
 {
     public interface ICreateOrderService
     {
-        Order Create(Guid id, DateTime orderDateTime, Guid userId);
+        Order Create(Guid id, Guid userId, Dictionary<Guid, int> products);
     }
 }

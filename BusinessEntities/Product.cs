@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 
 namespace BusinessEntities
 {
@@ -9,7 +10,7 @@ namespace BusinessEntities
     {
         private string _name;
         private string _description;
-        private ProductTypes _type;
+        private ProductTypes _type = ProductTypes.Undefined;
         private decimal _price;
 
         public string Name
@@ -38,7 +39,9 @@ namespace BusinessEntities
 
         public void SetName(string name)
         {
-            if (string.IsNullOrEmpty(name))
+            name = (name + string.Empty).Trim();
+
+            if (name.Length == 0)
             {
                 throw new ArgumentNullException(nameof(name), "Product Name was not provided.");
             }
@@ -47,7 +50,9 @@ namespace BusinessEntities
 
         public void SetDescription(string description)
         {
-            if (string.IsNullOrEmpty(description))
+            description = (description + string.Empty).Trim();
+
+            if (description.Length == 0)
             {
                 throw new ArgumentNullException(nameof(description), "Product Description was not provided.");
             }
