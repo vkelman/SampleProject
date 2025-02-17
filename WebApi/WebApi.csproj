@@ -183,6 +183,7 @@
     <Compile Include="Models\IdObjectData.cs" />
     <Compile Include="Models\Orders\OrderData.cs" />
     <Compile Include="Models\Orders\OrderModel.cs" />
+    <Compile Include="Models\Orders\OrderProductsData.cs" />
     <Compile Include="Models\Products\ProductModel.cs" />
     <Compile Include="Models\Products\ProductData.cs" />
     <Compile Include="Models\Users\UserData.cs" />

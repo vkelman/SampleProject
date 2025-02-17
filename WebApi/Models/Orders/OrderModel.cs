@@ -6,7 +6,6 @@ namespace WebApi.Models.Orders
 {
     public class OrderModel
     {
-        public DateTime OrderDate { get; set; }
         public OrderStatus Status { get; set; }
         public Guid UserId { get; set; } 
         public Dictionary<Guid, int> Products { get; set; }

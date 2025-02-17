@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Services.Products;
 using BusinessEntities;
+using WebApi.Models.Products;
 
 namespace WebApi.Controllers
 {
@@ -53,6 +54,15 @@ namespace WebApi.Controllers
                 return DoesNotExist("User");
             }
 
+            foreach (var productId in model.Products.Keys)
+            {
+                var product = _getProductService.GetProduct(productId);
+                if (product == null)
+                {
+                    return DoesNotExist("Product");
+                }
+            }
+
             var order = _createOrderService.Create(orderId, model.UserId, model.Products);
 
             var orderProducts = GetOrderProducts(order);
@@ -74,6 +84,15 @@ namespace WebApi.Controllers
             if (user == null)
             {
                 return DoesNotExist("User");
+            }
+
+            foreach (var productId in model.Products.Keys)
+            {
+                var product = _getProductService.GetProduct(productId);
+                if (product == null)
+                {
+                    return DoesNotExist("Product");
+                }
             }
 
             order = _updateOrderService.Update(order, DateTime.Now, model.Status, model.Products);
@@ -144,16 +163,16 @@ namespace WebApi.Controllers
             return Found();
         }
  
-        private IList<(string productName, int quantity)> GetOrderProducts(Order order)
+        private IList<OrderProductsData> GetOrderProducts(Order order)
         {
-            var orderProducts = new List<(string productName, int quantity)>();
+            var orderProducts = new List<OrderProductsData>();
 
-            foreach (var orderProduct in order.Products)
+            foreach (var productAndQuantity in order.Products)
             {
-                var productId = orderProduct.Key;
-                var productQuantity = orderProduct.Value;
-                var product = _getProductService.GetProduct(productId);
-                orderProducts.Add((product.Name, productQuantity));
+                var product = _getProductService.GetProduct(productAndQuantity.Key);
+                var quantity = productAndQuantity.Value;
+                var orderProductsData = new OrderProductsData(product.Name, quantity);
+                orderProducts.Add(orderProductsData);
             }
 
             return orderProducts;

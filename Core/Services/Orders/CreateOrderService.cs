@@ -26,7 +26,7 @@ namespace Core.Services.Orders
             var order = _orderFactory.Create(id);
 
             order.UserId = userId;
-            _updateOrderService.Update(order, DateTime.Now, OrderStatus.New, products);
+            order = _updateOrderService.Update(order, DateTime.Now, OrderStatus.New, products);
             _orderRepository.Save(order);
 
             return order;
