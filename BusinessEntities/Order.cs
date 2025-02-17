@@ -114,6 +114,8 @@ namespace BusinessEntities
 
         public void SetProducts(Dictionary<Guid, int> products)
         {
+            _products.Clear();
+
             if (products == null)
             {
                 throw new ArgumentNullException(nameof(products), "Products were not provided.");
